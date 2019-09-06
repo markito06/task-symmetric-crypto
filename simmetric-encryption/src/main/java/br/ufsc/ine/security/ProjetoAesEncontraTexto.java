@@ -25,7 +25,7 @@ public class ProjetoAesEncontraTexto {
 	private static Logger logger = Logger.getLogger(ProjetoAesEncontraTexto.class.getName());
 
 	public ProjetoAesEncontraTexto(String algAndMode, String key) {
-		logger.info("Configurando cifrador " + algAndMode);
+		logger.info("Setup chiper in mode : " + algAndMode);
 
 		try {
 			cipher = Cipher.getInstance(algAndMode);
@@ -33,10 +33,10 @@ public class ProjetoAesEncontraTexto {
 			SecretKey originalKey = new SecretKeySpec(encodedKey, "AES");
 			this.aesKey = originalKey;
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | DecoderException e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.log(Level.SEVERE, "Error in setup.", e);
 		}
 
-		logger.info("Fim da configuração");
+		logger.info("End of setup.");
 
 	}
 
@@ -50,7 +50,7 @@ public class ProjetoAesEncontraTexto {
 
 		} catch (IllegalBlockSizeException | BadPaddingException |  InvalidKeyException
 				| InvalidAlgorithmParameterException e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.log(Level.SEVERE, "Error in decrypt chiper text.", e);
 		}
 		return null;
 	}
@@ -61,7 +61,7 @@ public class ProjetoAesEncontraTexto {
 		try {
 		text = Hex.decodeHex(textPart.toCharArray());
 		} catch (DecoderException e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.log(Level.SEVERE, "Error on extract text.", e);
 		}
 		return text;
 	}
@@ -73,7 +73,7 @@ public class ProjetoAesEncontraTexto {
 		try {
 			iv = Hex.decodeHex(ivPart.toCharArray());
 		} catch (DecoderException e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.log(Level.SEVERE, "Error on extract iv.", e);
 		}
 		return iv;
 	}
