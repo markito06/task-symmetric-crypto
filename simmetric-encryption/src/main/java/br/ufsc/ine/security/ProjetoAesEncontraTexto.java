@@ -24,8 +24,11 @@ public class ProjetoAesEncontraTexto {
 	private Cipher cipher;
 	private static Logger logger = Logger.getLogger(ProjetoAesEncontraTexto.class.getName());
 
+	/**
+	 * Constructor and setter of cipher 
+	 * **/
 	public ProjetoAesEncontraTexto(String algAndMode, String key) {
-		logger.info("Setup chiper in mode : " + algAndMode);
+		logger.info("Setup cipher in mode : " + algAndMode);
 
 		try {
 			cipher = Cipher.getInstance(algAndMode);
@@ -39,14 +42,16 @@ public class ProjetoAesEncontraTexto {
 		logger.info("End of setup.");
 
 	}
-
+	
+	/**
+	 * Decrypt the ciphertext send 
+	 * **/
 	public String decrypt(String dec) {
 		try {
 			
-			IvParameterSpec  ivParameterSpec =  new IvParameterSpec(extractIv(dec));
-			cipher.init(Cipher.DECRYPT_MODE, aesKey, ivParameterSpec);
-			String decryptedString = new String(cipher.doFinal(extractTexto(dec)));
-			return decryptedString;
+			cipher.init(Cipher.DECRYPT_MODE, aesKey, extractIv(dec));
+			String hiddenMessage = new String(cipher.doFinal(extractChiperMessage(dec)));
+			return hiddenMessage;
 
 		} catch (IllegalBlockSizeException | BadPaddingException |  InvalidKeyException
 				| InvalidAlgorithmParameterException e) {
@@ -55,7 +60,10 @@ public class ProjetoAesEncontraTexto {
 		return null;
 	}
 
-	private byte[] extractTexto(String dec) {
+	/**
+	 * Extract part representing encrypted message
+	 * */
+	private byte[] extractChiperMessage(String dec) {
 		String textPart = dec.substring(32);
 		byte[] text = {};
 		try {
@@ -65,8 +73,11 @@ public class ProjetoAesEncontraTexto {
 		}
 		return text;
 	}
-
-	private byte[] extractIv(String dec) {
+	
+	/**
+	 * Extract part of concatenated text at beginning of encrypted message
+	 * */
+	private IvParameterSpec extractIv(String dec) {
  		String ivPart = dec.substring(0,32);
 		System.out.println(ivPart);
 		byte[] iv = {}; 
@@ -75,7 +86,7 @@ public class ProjetoAesEncontraTexto {
 		} catch (DecoderException e) {
 			logger.log(Level.SEVERE, "Error on extract iv.", e);
 		}
-		return iv;
+		return new IvParameterSpec(iv);
 	}
 
 }
