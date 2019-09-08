@@ -2,21 +2,46 @@ package br.ufsc.ine.security;
 
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+@SuppressWarnings("unused")
 public class App {
+	
+	private static Logger logger = LogManager.getLogger();
+
 	public static void main(String[] args) {
-		responderCifrarDecifrar();
+		// responderCifrarDecifrar();
 		responderDescobrirTexto();
 
 	}
 
 	private static void responderDescobrirTexto() {
-		String aessKeyAsString = "61db043f03148b11ac184af2c33a7659";
-		String ivAndCipherText = "2f70627169811ad3732352be6ce82132c373d66f593332592ce1d4802296813932828bc"
-				+ "4511d32e6ff15ccb55fb3436c27d8856520f5f212d9a6efe1c8";
-		ProjetoAesEncontraTexto aesCbc = new ProjetoAesEncontraTexto("AES/CBC/PKCS5Padding", aessKeyAsString);
-		String decrypt = aesCbc.decrypt(ivAndCipherText);
-		System.out.println(decrypt);
+		final String aesKeyCbc = "61db043f03148b11ac184af2c33a7659";
+		final String chiperMessage1 = "2f70627169811ad3732352be6ce82132c373d66f593332592ce1d4802296813932828bc4511d32e6ff15ccb55fb3436c27d8856520f5f212d9a6efe1c8";
+
+		final String aesKeyCtr = "64e904151b40021bb0cef5eaa0e37c22";
+		final String chiperMessage2 = "b5a03f98b9fbacc438f038d1ebf446ad40dafd29b0f80dbe79e2efb52b77fe62ee1bc6f41eb32a6a106c3e5abcd3becb38839b0c88839e7319b6368846e51b96db3d2211cf9b5280b0cef52111a5bb6479e1c0";
 		
+		try {
+			ProjetoAesEncontraTexto aesCbc = new ProjetoAesEncontraTexto("AES/CBC/PKCS5Padding", aesKeyCbc);
+			String decrypt1 = aesCbc.decrypt(chiperMessage1);
+			System.out.println(decrypt1);
+			
+		} catch (Exception e) {
+			logger.error("Error find hidden text with block mode.", e);
+		}
+		
+		try {
+			ProjetoAesEncontraTexto aesCtr = new ProjetoAesEncontraTexto("AES/CTR/NoPadding", aesKeyCtr);
+			String decrypt2 = aesCtr.decrypt(chiperMessage2);
+			System.out.println(decrypt2);
+			
+		}catch (Exception e) {
+			logger.error("Error find hidden text with counter mode.", e);
+		}
+		
+
 	}
 
 	private static void responderCifrarDecifrar() {
