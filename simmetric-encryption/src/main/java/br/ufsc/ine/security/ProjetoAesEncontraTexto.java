@@ -1,6 +1,7 @@
 package br.ufsc.ine.security;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -29,7 +30,7 @@ public class ProjetoAesEncontraTexto {
 	 * Constructor and setter of cipher
 	 **/
 	public ProjetoAesEncontraTexto(String algAndMode, String key) {
-		logger.info("Setup cipher in mode : " + algAndMode);
+		System.out.println("Setting cipher in mode : " + algAndMode);
 
 		try {
 			cipher = Cipher.getInstance(algAndMode);
@@ -40,8 +41,6 @@ public class ProjetoAesEncontraTexto {
 			logger.error("Error in setup chiper in mode : {}.",algAndMode, e);
 		}
 
-		logger.info("End of setup.");
-
 	}
 
 	/**
@@ -51,11 +50,11 @@ public class ProjetoAesEncontraTexto {
 		try {
 
 			cipher.init(Cipher.DECRYPT_MODE, aesKey, extractIv(dec));
-			String hiddenMessage = new String(cipher.doFinal(extractChiperMessage(dec)), "UTF-8");
+			String hiddenMessage = new String(cipher.doFinal(extractChiperMessage(dec)), StandardCharsets.UTF_8);
 			return hiddenMessage;
 
 		} catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException
-				| InvalidAlgorithmParameterException | UnsupportedEncodingException e) {
+				| InvalidAlgorithmParameterException e) {
 			logger.error("Error in decrypt chiper text.", e);
 		}
 		return null;
@@ -66,7 +65,7 @@ public class ProjetoAesEncontraTexto {
 	 */
 	private byte[] extractChiperMessage(String dec) {
 		String textPart = dec.substring(32);
-		System.out.println(textPart + "  -- length : " + textPart.length());
+		System.out.println("msg:{" + textPart + "} - length : " + textPart.length());
 		byte[] text = {};
 		try {
 			text = Hex.decodeHex(textPart.toCharArray());
@@ -81,7 +80,7 @@ public class ProjetoAesEncontraTexto {
 	 */
 	private IvParameterSpec extractIv(String dec) {
 		String ivPart = dec.substring(0, 32);
-		System.out.println(ivPart + " -- lenth : " + ivPart.length());
+		System.out.println("iv:{" + ivPart + "} - lenth : " + ivPart.length());
 		byte[] iv = {};
 		try {
 			iv = Hex.decodeHex(ivPart.toCharArray());

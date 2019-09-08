@@ -6,8 +6,6 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -18,6 +16,8 @@ import javax.crypto.spec.IvParameterSpec;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ProjetoAesEntraDados {
 
@@ -25,12 +25,12 @@ public class ProjetoAesEntraDados {
 	private byte iv[];
 	private IvParameterSpec ivSpec;
 	private Cipher cipher;
-	private static Logger logger = Logger.getLogger(ProjetoAesEntraDados.class.getName());
+	private static Logger logger = LogManager.getLogger();
 	
 
 	public ProjetoAesEntraDados() {
 		try {
-			logger.info("Configurando cifrador");
+			System.out.println("Setting cipher.");
 			cipher = Cipher.getInstance("AES/CTR/NoPadding");
 
 			// Gera uma chave AES
@@ -46,9 +46,8 @@ public class ProjetoAesEntraDados {
 			random.nextBytes(iv);
 			ivSpec = new IvParameterSpec(iv);
 			System.out.println("IV \t= " + Hex.encodeHexString(iv));
-			logger.info("Fim da configuração");
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | NoSuchProviderException e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error("Error ", e);
 		}
 
 	}
@@ -62,7 +61,7 @@ public class ProjetoAesEntraDados {
 
 		} catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException
 				| BadPaddingException e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error("Error in encrypt", e);
 		}
 		return null;
 	}
@@ -78,7 +77,7 @@ public class ProjetoAesEntraDados {
 			return decryptedString;
 
 		} catch (IllegalBlockSizeException | BadPaddingException | DecoderException | InvalidKeyException | InvalidAlgorithmParameterException e) {
-			logger.log(Level.SEVERE, null, e);
+			logger.error("Error in decrypt", e);
 		}
 		return null;
 	}

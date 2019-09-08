@@ -11,9 +11,23 @@ public class App {
 	private static Logger logger = LogManager.getLogger();
 
 	public static void main(String[] args) {
-		// responderCifrarDecifrar();
-		responderDescobrirTexto();
+		//responderCifrarDecifrar();
+		//responderDescobrirTexto();
+		calculaHash();
 
+	}
+
+	private static void calculaHash() {
+		final String text1 = "resultado";
+		final String text2 = "resultado2";
+		HashCalculator calculator = new HashCalculator();
+		System.out.println("Resultado do calculo para o mesmo texto:\t");
+		System.out.println(calculator.getHash(text1));
+		System.out.println(calculator.getHash(text1));
+		System.out.println("\n");
+		System.out.println("Resultado do calculo para textos diferentes:\t");
+		System.out.println(calculator.getHash(text1));
+		System.out.println(calculator.getHash(text2));
 	}
 
 	private static void responderDescobrirTexto() {
