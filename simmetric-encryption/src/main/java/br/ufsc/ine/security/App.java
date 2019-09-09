@@ -13,8 +13,27 @@ public class App {
 	public static void main(String[] args) {
 		//responderCifrarDecifrar();
 		//responderDescobrirTexto();
-		calculaHash();
+		//calculaHash();
+		calculaHMac();
 
+	}
+
+	private static void calculaHMac() {
+		MacCalculator calculator = new MacCalculator();
+		String plainTxt;
+		String pass;
+		try (Scanner input = new Scanner(System.in)) {
+			System.out.println("Digite a msg: ");
+			plainTxt = input.nextLine();
+			System.out.println("Digite a senha: ");
+			pass = input.nextLine();
+			System.out.println("Plain text : ");
+			System.out.println(plainTxt);
+			System.out.println("Encoded text : ");
+			System.out.println(calculator.getMac(plainTxt, pass));
+			System.out.println("Encoded text (second execution with same input) : ");
+			System.out.println(calculator.getMac(plainTxt, pass));
+		}
 	}
 
 	private static void calculaHash() {
