@@ -14,8 +14,25 @@ public class App {
 		//responderCifrarDecifrar();
 		//responderDescobrirTexto();
 		//calculaHash();
-		calculaHMac();
+		//calculaHMac();
+		cryptoAuthPBKDF2();
 
+	}
+
+	private static void cryptoAuthPBKDF2() {
+		String plainTxt;
+		String pass;
+		
+		try (Scanner input = new Scanner(System.in)) {
+			System.out.println("Digite a msg: ");
+			plainTxt = input.nextLine();
+			System.out.println("Digite a senha: ");
+			pass = input.nextLine();
+			System.out.println("Plain text : ");
+			System.out.println(plainTxt);
+			
+		}
+		
 	}
 
 	private static void calculaHMac() {
