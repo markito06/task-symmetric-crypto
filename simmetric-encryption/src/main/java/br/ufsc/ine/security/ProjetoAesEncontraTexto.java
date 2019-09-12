@@ -1,6 +1,5 @@
 package br.ufsc.ine.security;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -42,7 +41,7 @@ public class ProjetoAesEncontraTexto {
 		}
 
 	}
-
+	
 	/**
 	 * Decrypt the ciphertext send
 	 **/
